@@ -18,18 +18,20 @@ xlabel('Time (msec)');
 ylabel('Energy (kCal/mole)');
 
 subplot(413);
-plot(trial.data.time,trial.fracribo,'g');
+s=r.summaryhelix;
+st=s.frac(trialnum);
+plot(st.time,st.ribo,'g');
 hold on;
-plot(trial.data.time,trial.fracapt,'r');
+plot(st.time,st.apt,'r');
 c=axis;axis([c(1),c(2),-0.1,1.1]);
 legend({'Ribozyme Formed','Aptamer Formed'});
 xlabel('Time(msec)');
 title('Ribozyme/Aptamer Formation');
 
 subplot(414);
-plot(r.summary.time,r.summary.fracribo,'g');
+plot(s.time,s.fracribo,'g');
 hold on;
-plot(r.summary.time,r.summary.fracapt,'r');
+plot(s.time,s.fracapt,'r');
 c=axis;axis([c(1),c(2),-0.1,1.1]);
 legend({'Ribozyme Formed','Aptamer Formed'});
 xlabel('Time(msec)');

@@ -73,12 +73,13 @@ for trial=1:args.ntrials
 
   cmd=[sshcmd,' ./kinefold_long_static job.req'];
   fprintf('Executing %s...',cmd);
+  tic
   [s,result]=system(cmd);
   if s~=0
     fprintf('Failed %s:\n\t%r\n', cmd, result);
     return;
   end
-  fprintf('done\n');
+  fprintf('done\nElapsed time=%.0f seconds\n',toc);
 
   cmd=sprintf('scp -i %s "%s:job.*" %s',args.cert,host,tmpdir);
   fprintf('Executing %s...',cmd);
