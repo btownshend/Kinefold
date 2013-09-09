@@ -1,7 +1,7 @@
 % Kinefold - run kinefold on a sequence using remote server at AWS
 % Assumes instance already started with kinefold in AMI (see AWS/startinstance)
 function r=kinefold(name,seq,varargin)
-defaults=struct('seed',[],'duration',1000,'trace',[],'force',[],'ntrials',1,'cert','AWS/keypair20130523.pem');
+defaults=struct('seed',[],'duration',1000,'trace',[],'force',[],'ntrials',1,'cert','~/Dropbox/AWS/keypair20130523.pem');
   %  old cert='~/Documents/Certificates/EC2.pem';
 args=processargs(defaults,varargin);
 if isempty(args.seed)
@@ -10,7 +10,7 @@ end
 if args.ntrials~=length(args.seed)
   error('Specified %d trials, but %d seeds\n', args.ntrials, length(args.seed));
 end
-[s,host]=system('. AWS/awssetup.sh; AWS/getip');
+[s,host]=system('. ~/Dropbox/AWS/awssetup.sh; ~/Dropbox/AWS/getip');
 if s~=0
   error('Failed to get AWS IP address: %s',host)
 end
