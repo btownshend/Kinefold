@@ -25,6 +25,7 @@ if args.ntrials>0
   s3=findhelix(seq,'GCUGU','ACAGC');
   s1=findhelix(seq,'ACCGGA','UCCGGU',s3(1)+s3(3),s3(2)-s3(3));
   s2=findhelix(seq,'GA(GUCC)','(GGAC)GAA',s1(1)+s1(3),s3(2)-s3(3));
+  helixlabels={'Stem1','Stem2','Stem3'};
   if s2(2)-s2(1) > s1(2)-s1(1)
     aloc=[s2(1)+s2(3),s2(2)-s2(3)];
     fprintf('Aptamer is in stem2');
@@ -37,6 +38,7 @@ if args.ntrials>0
   if isempty(a1)
     a2=[];
   else
+    helixlabels{end+1}='Theo1';
     a2=findhelix(seq,'GCAUC','GAUGC',a1(1)+a1(3),a1(2)-a1(3));
     if isempty(a2)
       a2=findhelix(seq,'AUA.*(...)GUCUU','GUCUU(...).*[CA]AG',a1(1)+a1(3),a1(2)-a1(3));
@@ -50,8 +52,18 @@ if args.ntrials>0
         end
       end
     end
+    if ~isempty(a2)
+      helixlabels{end+1}='Theo2';
+    end
+  end
+  if length(helixlabels)<4
+    helixlabels{4}='?';
+  end
+  if length(helixlabels)<5
+    helixlabels{5}='?';
   end
   rnew=kinefold(name,seq,'ntrials',1,'trace',[s1;s2;s3;a1;a2],'duration',args.duration,'ntrials',args.ntrials);
+  rnew.helixlabels=helixlabels;
   if exist('r','var')
     r.trial=[r.trial,rnew.trial];
   else
@@ -60,7 +72,6 @@ if args.ntrials>0
 end
 
 r.name=name;
-r.helixlabels={'Stem1','Stem2','Stem3','Theo1','Theo2'};
 r=mksummary(r);
 save(cachefile,'-struct','r');
 
@@ -132,7 +143,7 @@ if length(f1)<1
   fprintf('Unable to find helix %s  %s in %s\nf1=%s, f2=%s\n',pt1,pt2,seq(minpos:maxpos), sprintf('%d ',f1),sprintf('%d ',f2));
   s=[];
 elseif length(f1)>1
-  fprintf('Multiple solutions to find helix %s  %s in %s\nf1=%s, f2=%s\n',pt1,pt2,seq(minpos:maxpos), sprintf('%d ',f1),sprintf('%d ',f2));
+  fprintf('Multiple solutions to find helix %s  %s in %s\nf1=%s, f2=%s; using first one\n',pt1,pt2,seq(minpos:maxpos), sprintf('%d ',f1),sprintf('%d ',f2));
   s=[f1(1),f2(1),len(1)];
 else
   fprintf('Found pt1 %s at %s, pt2 %s at %s:', pt1, sprintf('%d ',f1),pt2, sprintf('%d ',f2));
