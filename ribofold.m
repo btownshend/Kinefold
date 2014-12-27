@@ -34,7 +34,7 @@ if args.ntrials>0
     fprintf('Aptamer is in stem1');
   end
   fprintf(' with maximum length %d: %s\n',aloc(2)-aloc(1)+1,seq(aloc(1):aloc(2)));
-  a1=findhelix(seq,'(....)AUACCAG','UUGG[CA]..(....)',aloc(1)-4,aloc(2)+4)
+  a1=findhelix(seq,'(....)AUACCAG','UUGG[CA]..(....)',aloc(1)-4,aloc(2)+4);
   if isempty(a1)
     a2=[];
   else
@@ -140,7 +140,7 @@ for i=1:length(t1)
   end
 end
 if length(f1)<1
-  fprintf('Unable to find helix %s  %s in %s\nf1=%s, f2=%s\n',pt1,pt2,seq(minpos:maxpos), sprintf('%d ',f1),sprintf('%d ',f2));
+  fprintf('Unable to find helix %s  %s in %s, f1=%s, f2=%s\n',pt1,pt2,seq(minpos:maxpos), sprintf('%d ',f1),sprintf('%d ',f2));
   s=[];
 elseif length(f1)>1
   fprintf('Multiple solutions to find helix %s  %s in %s\nf1=%s, f2=%s; using first one\n',pt1,pt2,seq(minpos:maxpos), sprintf('%d ',f1),sprintf('%d ',f2));
