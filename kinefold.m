@@ -64,12 +64,13 @@ for trial=1:args.ntrials
 
   cmd=sprintf('scp -o StrictHostKeyChecking=no -i %s %s/job.req %s/job.dat %s:',args.cert,tmpdir,tmpdir,host);
   fprintf('Executing %s...',cmd);
+  tic
   [s,result]=system(cmd);
   if s~=0
     fprintf('Failed %s:\n\t%r\n', cmd, result);
     return;
   end
-  fprintf('done\n');
+  fprintf('done [%.0f sec]\n',toc);
 
   cmd=[sshcmd,' ./kinefold_long_static job.req'];
   fprintf('Executing %s...',cmd);
@@ -79,18 +80,19 @@ for trial=1:args.ntrials
     fprintf('Failed %s:\n\t%r\n', cmd, result);
     return;
   end
-  fprintf('done\nElapsed time=%.0f seconds\n',toc);
+  fprintf('done [%.0f sec]\n',toc);
 
   cmd=sprintf('scp -i %s "%s:job.*" %s',args.cert,host,tmpdir);
   fprintf('Executing %s...',cmd);
+  tic
   [s,result]=system(cmd);
   if s~=0
     fprintf('Failed %s:\n\t%r\n', cmd, result);
     return;
   end
-  fprintf('done\n');
+  fprintf('done [%.0f sec]\n',toc);
 
-  dir(tmpdir);
+  %dir(tmpdir);
   fd=fopen([tmpdir,'/job.e'],'r');  % Read back trace
   C=textscan(fd,'%s %d %d %d\n',5);
   for i=1:length(C{1})
