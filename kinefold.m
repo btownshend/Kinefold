@@ -67,7 +67,7 @@ for trial=1:args.ntrials
   tic
   [s,result]=system(cmd);
   if s~=0
-    fprintf('Failed %s:\n\t%r\n', cmd, result);
+    error('Failed %s:\n\t%r\n', cmd, result);
     return;
   end
   fprintf('done [%.0f sec]\n',toc);
@@ -77,7 +77,7 @@ for trial=1:args.ntrials
   tic
   [s,result]=system(cmd);
   if s~=0
-    fprintf('Failed %s:\n\t%r\n', cmd, result);
+    error('Failed %s:\n\t%r\n', cmd, result);
     return;
   end
   fprintf('done [%.0f sec]\n',toc);
@@ -87,7 +87,7 @@ for trial=1:args.ntrials
   tic
   [s,result]=system(cmd);
   if s~=0
-    fprintf('Failed %s:\n\t%r\n', cmd, result);
+    error('Failed %s:\n\t%r\n', cmd, result);
     return;
   end
   fprintf('done [%.0f sec]\n',toc);
