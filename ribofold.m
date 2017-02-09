@@ -22,7 +22,7 @@ if args.ntrials>0
   % stems                   33333 111111       111111       2222                                                 2222   33333
   %                                                                ((((...((.((((((...))))))....))...))))
   % aptamer                                                        4444bbb   555555   555555      bbb4444
-  s3=findhelix(seq,'GCUGU','ACAGC');
+  s3=findhelix(seq,'(GCUGU)CACCGGA','GAA(ACAGC)');
   s1=findhelix(seq,'ACCGGA','UCCGGU',s3(1)+s3(3),s3(2)-s3(3));
   s2=findhelix(seq,'GA(GUCC)','(GGAC)GAA',s1(1)+s1(3),s3(2)-s3(3));
   helixlabels={'Stem1','Stem2','Stem3'};
