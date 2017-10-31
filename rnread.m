@@ -38,13 +38,21 @@ while true
   C=textscan(d1,' | Structure %d, Free-energy : %f kcal/mol #',1);
   if length(C)~=2 || isempty(C{1}) || isempty(C{2})
     C=textscan(d1,' | %f kcal/mol reached after %f ms, 3''-end : %d over %d bases #');
-    if isempty(C{1})||isempty(C{2}) || isempty(C{3}) || isempty(C{4})
-      error('Error scanning line: %s\n', d1);
+    if ~isempty(C{1})&&~isempty(C{2})&&~isempty(C{3})&&~isempty(C{4})
+      f.energy=C{1};
+      f.time=C{2};
+      f.length=C{3};
+      f.total=C{4};
+    else
+      C=textscan(d1,' | %f kcal/mol reached after %f ms and %d transitions        #');
+      if ~isempty(C{1})&&~isempty(C{2})&&~isempty(C{3})
+        f.energy=C{1};
+        f.time=C{2};
+        f.length=C{3};
+      else
+        error('Error scanning line: %s\n', d1);
+      end
     end
-    f.energy=C{1};
-    f.time=C{2};
-    f.length=C{3};
-    f.total=C{4};
   else
     f.structnum=C{1};
     f.energy=C{2};
@@ -56,3 +64,4 @@ while true
     r.fold=[r.fold,f];
   end
 end
+fclose(fd);

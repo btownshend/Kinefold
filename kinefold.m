@@ -1,7 +1,7 @@
 % Kinefold - run kinefold on a sequence using remote server at AWS
 % Assumes instance already started with kinefold in AMI (see AWS/startinstance)
 function r=kinefold(name,seq,varargin)
-defaults=struct('seed',[],'duration',1000,'trace',[],'force',[],'ntrials',1,'cert','~/Dropbox/AWS/keypair20130523.pem');
+defaults=struct('seed',[],'duration',1000,'trace',[],'force',[],'ntrials',1,'cert','~/Dropbox/AWS/keypair20130523.pem','dna',0,'renaturation',0,'entanglements',0);
   %  old cert='~/Documents/Certificates/EC2.pem';
 args=processargs(defaults,varargin);
 if isempty(args.seed)
@@ -36,13 +36,17 @@ for trial=1:args.ntrials
   for i=1:length(suffixes)
     fprintf(fd,'job.%s\n',suffixes{i});
   end
-  fprintf(fd,'0		# 0=RNA ; 1=DNA\n');
+  fprintf(fd,'%d		# 0=RNA ; 1=DNA\n',args.dna);
   fprintf(fd,'6.3460741	# helix minimum free energy in kcal/mol: 6.3460741=10kT\n');
   fprintf(fd,'10000000	# NA\n');
   fprintf(fd,'%d		# folding time requested in msec\n',args.duration);
   fprintf(fd,'1		# pseudoknots   1=yes 0=no\n');
-  fprintf(fd,'0		# entanglements	1=yes 0=no\n');
-  fprintf(fd,'2 3		# simulation type: 1=renaturation; 2 20=cotrans. @ 20msec/nt\n');
+  fprintf(fd,'%d		# entanglements	1=yes 0=no\n',args.entanglements);
+  if args.renaturation
+    fprintf(fd,'1		# simulation type: 1=renaturation; 2 20=cotrans. @ 20msec/nt\n');
+  else
+    fprintf(fd,'2 3		# simulation type: 1=renaturation; 2 20=cotrans. @ 20msec/nt\n');
+  end
   for i=1:size(args.trace,1)
     fprintf(fd,'T %d %d %d\n',args.trace(i,:));
   end

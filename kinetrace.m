@@ -18,7 +18,7 @@ subplot(412);
 plot(trial.data.time,trial.data.energy);
 xlabel('Time (msec)');
 ylabel('Energy (kCal/mole)');
-axis([0,maxtime,-0.1,1.1]);
+%axis([0,maxtime,-0.1,1.1]);
 
 subplot(413);
 s=r.summaryhelix;
@@ -38,7 +38,7 @@ plot(s.time,s.fracapt,'r');
 axis([0,maxtime,-0.1,1.1]);
 legend({'Ribozyme Formed','Aptamer Formed'});
 xlabel('Time(msec)');
-title(sprintf('Ribozyme/Aptamer Formation over %d trials',length(r.trial)));
+title(sprintf('Ribozyme/Aptamer Formation over %d trials (mean ribofrac=%.1f%%)',length(r.trial),mean(s.fracribo)*100));
 
 h=suptitle(sprintf('%s trial %d seed=%d', r.name, trialnum,trial.seed));
 set(h,'Interpreter','none');
